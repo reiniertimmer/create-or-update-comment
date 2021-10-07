@@ -1,0 +1,11 @@
+on: pull_request
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./
+        with:
+          tracker: marker
+          issue-number: ${{ github.event.pull_request.number }}
+          body: Hello there!
