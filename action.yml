@@ -14,9 +14,7 @@ inputs:
     description: 'The comment body.'
     required: true
   tracker:
-    description: 'The tracker comment
-  reactions:
-    description: 'A comma separated list of reactions to add to the comment.'
+    description: 'The tracker comment'
 outputs:
   comment-id:
     description: 'The id of the created comment'
@@ -30,6 +28,7 @@ runs:
         issue-number: ${{ inputs.issue-number }}
         repository: ${{ inputs.repository }}
         body-includes: "<!-- ${{ inputs.tracker }} -->"
+        token: ${{ inputs.token }}
 
     - name: Create or update comment
       uses: peter-evans/create-or-update-comment@v1
@@ -41,3 +40,4 @@ runs:
           <!-- ${{ inputs.tracker }} -->
           ${{ inputs.body }}
         edit-mode: replace
+        token: ${{ inputs.token }}
