@@ -7,6 +7,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          tracker: marker
+          marker: marker
           issue-number: ${{ github.event.pull_request.number }}
           body: This is a tracked message
