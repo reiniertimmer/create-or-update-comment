@@ -13,11 +13,10 @@ inputs:
   body:
     description: 'The comment body.'
     required: true
-  tracker:
-    description: 'The tracker comment'
-outputs:
-  comment-id:
-    description: 'The id of the created comment'
+  marker:
+    description: 'The marker that tracks the comments'
+    required: true
+
 runs:
   using: composite
   steps:
@@ -27,7 +26,7 @@ runs:
       with:
         issue-number: ${{ inputs.issue-number }}
         repository: ${{ inputs.repository }}
-        body-includes: "<!-- ${{ inputs.tracker }} -->"
+        body-includes: "<!-- ${{ inputs.marker }} -->"
         token: ${{ inputs.token }}
 
     - name: Create or update comment
@@ -37,7 +36,7 @@ runs:
         issue-number: ${{ inputs.issue-number }}
         repository: ${{ inputs.repository }}
         body: |
-          <!-- ${{ inputs.tracker }} -->
+          <!-- ${{ inputs.marker }} -->
           ${{ inputs.body }}
         edit-mode: replace
         token: ${{ inputs.token }}

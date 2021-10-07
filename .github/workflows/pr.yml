@@ -9,4 +9,4 @@ jobs:
         with:
           tracker: marker
           issue-number: ${{ github.event.pull_request.number }}
-          body: This is an updated message
+          body: This is a tracked message
