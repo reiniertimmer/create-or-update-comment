@@ -1,0 +1,43 @@
+name: 'Create or Update Comment'
+description: 'Create or update an issue or pull request comment'
+inputs:
+  token:
+    description: 'GITHUB_TOKEN or a repo scoped PAT.'
+    default: ${{ github.token }}
+  repository:
+    description: 'The full name of the repository in which to create or update a comment.'
+    default: ${{ github.repository }}
+  issue-number:
+    description: 'The number of the issue or pull request in which to create a comment.'
+    required: true
+  body:
+    description: 'The comment body.'
+    required: true
+  tracker:
+    description: 'The tracker comment
+  reactions:
+    description: 'A comma separated list of reactions to add to the comment.'
+outputs:
+  comment-id:
+    description: 'The id of the created comment'
+runs:
+  using: composite
+  steps:
+    - name: Find Comment
+      uses: peter-evans/find-comment@v1
+      id: fc
+      with:
+        issue-number: ${{ inputs.issue-number }}
+        repository: ${{ inputs.repository }}
+        body-includes: "<!-- ${{ inputs.tracker }} -->"
+
+    - name: Create or update comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        comment-id: ${{ steps.fc.outputs.comment-id }}
+        issue-number: ${{ inputs.issue-number }}
+        repository: ${{ inputs.repository }}
+        body: |
+          <!-- ${{ inputs.tracker }} -->
+          ${{ inputs.body }}
+        edit-mode: replace
